@@ -13,10 +13,17 @@ app.get("/sse", async (req, res) => {
   transport = new SSEServerTransport("/message", res);
   await server.connect(transport);
 
+  server.onerror = (err) => {
+    console.error(`Server onerror: ${err.stack}`)
+  }
+
   server.onclose = async () => {
-    await cleanup();
-    await server.close();
-    process.exit(0);
+    console.log('Server onclose')
+    if (process.env.KEEP_SERVER_OPEN !== "1") {
+      await cleanup();
+      await server.close();
+      process.exit(0);
+    }
   };
 });
 

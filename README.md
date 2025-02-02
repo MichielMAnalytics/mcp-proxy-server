@@ -47,7 +47,15 @@ Example config structure:
       "name": "Server 2",
       "transport": {
         "command": "server2-command",
-        "args": ["--option1", "value1"]
+        "args": ["--option1", "value1"],
+        "env": ["SECRET_API_KEY"]
+      }
+    },
+    {
+      "name": "Example Server 3",
+      "transport": {
+        "type": "sse",
+        "url": "http://localhost:8080/sse"
       }
     }
   ]
@@ -76,6 +84,14 @@ For development with auto-rebuild:
 npm run watch
 ```
 
+For development with continuous run:
+```bash
+# Stdio
+npm run dev
+# SSE
+npm run dev:sse
+```
+
 ## Installation
 
 To use with Claude Desktop, add the server config:
@@ -89,12 +105,15 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
     "mcp-proxy": {
       "command": "/path/to/mcp-proxy-server/build/index.js",
       "env": {
-        "MCP_CONFIG_PATH": "/absolute/path/to/your/config.json"
+        "MCP_CONFIG_PATH": "/absolute/path/to/your/config.json",
+        "KEEP_SERVER_OPEN": "1"
       }
     }
   }
 }
 ```
+
+- `KEEP_SERVER_OPEN` will keep the SSE running even if a client disconnects. Useful when multiple clients connects to the MCP proxy.
 
 ### Debugging
 
