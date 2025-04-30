@@ -40,7 +40,7 @@ const validateBearerToken = (req: express.Request): boolean => {
 app.get("/sse", async (req, res) => {
   const expectedToken = process.env.MCP_AUTH_TOKEN;
   
-  console.log('Checking SSE authorization:', {
+  console.log('Checking SSE authorization in sse.ts:', {
     ip: req.ip,
     headers: req.headers,
     authHeader: req.headers.authorization,
