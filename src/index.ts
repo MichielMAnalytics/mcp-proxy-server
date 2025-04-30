@@ -13,6 +13,21 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { createServer } from "./mcp-proxy.js";
 
 async function main() {
+
+  console.log("=================================================");
+  console.log("MCP PROXY SERVER - AUTH REQUIRED BUILD v1.2");
+  console.log("=================================================");
+  
+  // Check authentication configuration
+  const authToken = process.env.MCP_AUTH_TOKEN;
+  console.log(`MCP authentication ${authToken ? 'enabled' : 'not configured'}`);
+  
+  if (!authToken) {
+    console.error('ERROR: No MCP_AUTH_TOKEN environment variable set.');
+    console.error('Authentication is required for security purposes.');
+    process.exit(1);
+  }
+
   const transport = new StdioServerTransport();
   const { server, cleanup } = await createServer();
 

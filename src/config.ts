@@ -12,6 +12,10 @@ export type TransportConfigStdio = {
 export type TransportConfigSSE = {
   type: 'sse'
   url: string
+  headers?: {
+    Authorization?: string
+    [key: string]: string | undefined
+  }
 }
 
 export type TransportConfig = TransportConfigSSE | TransportConfigStdio
@@ -28,6 +32,7 @@ export const loadConfig = async (): Promise<Config> => {
   try {
     const configPath = resolve(process.cwd(), 'config.json');
     const fileContents = await readFile(configPath, 'utf-8');
+    console.log('Loaded config.json:', fileContents);
     return JSON.parse(fileContents);
   } catch (error) {
     console.error('Error loading config.json:', error);
